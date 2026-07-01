@@ -1894,6 +1894,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Untitled_4
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 55
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78670424f984d3348acb2b771a89aeb4
+      internalID: -1490496499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1942,6 +1964,7 @@ TextureImporter:
       Untitled_37: 21300058
       Untitled_38: 21300060
       Untitled_39: 21300062
+      Untitled_4: -1490496499
       Untitled_40: 21300064
       Untitled_41: 21300066
       Untitled_42: 21300068
