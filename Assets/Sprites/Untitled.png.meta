@@ -1872,11 +1872,33 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: HalfLadder
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 51
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 27745ed6d5883ef4dbbcbcae1991f6d5
+      internalID: 543367951
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2fe64d07f6efe334a93b7aa7d2d96b33
     internalID: 0
     vertices: []
     indices: 
@@ -1886,6 +1908,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      HalfLadder: 543367951
       Untitled_0: 21300000
       Untitled_1: 21300002
       Untitled_100: 21300136
