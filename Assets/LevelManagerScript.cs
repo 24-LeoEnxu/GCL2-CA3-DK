@@ -6,7 +6,7 @@ public class LevelManagerScript : MonoBehaviour
     public GameObject barrel;
     public GameObject donkeyKong;
     public GameObject mario;
-
+    private MarioMovement marioMovement;
     
     
     
@@ -16,6 +16,7 @@ public class LevelManagerScript : MonoBehaviour
         barrel = GetComponent<GameObject>();
         mario = GetComponent<GameObject>();
         donkeyKong = GetComponent<GameObject>();
+        marioMovement = mario.GetComponent<MarioMovement>();
     }
 
     // Update is called once per frame
@@ -23,6 +24,13 @@ public class LevelManagerScript : MonoBehaviour
     {
         
     }
+
+    public void marioDie()
+    {
+        mario.gameObject.SetActive(false);
+        gameOver();
+    }
+
 
     public void restartGame()
     {

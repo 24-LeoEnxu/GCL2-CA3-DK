@@ -3,7 +3,7 @@ using UnityEngine;
 public class barrel_script : MonoBehaviour
 {
     public LevelManagerScript levelManagerScript;
-    public GameObject mario;
+    public GameObject mario
 
     
     
@@ -26,11 +26,13 @@ public class barrel_script : MonoBehaviour
         Destroy(gameObject);
     }
 
+    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            getDestroyed();
+            levelManagerScript.marioDie();
         }
     }
 

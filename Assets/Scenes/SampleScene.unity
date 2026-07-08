@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0542497a90335c54e9266ba293604565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrel: {fileID: 0}
+  barrel: {fileID: 8770734410713907148}
   donkeyKong: {fileID: 0}
-  mario: {fileID: 0}
+  mario: {fileID: 3122919210291964650}
 --- !u!4 &406351205
 Transform:
   m_ObjectHideFlags: 0
@@ -1552,6 +1552,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4730c45fa33b8b4da3463f361773f9b, type: 3}
+--- !u!1 &3122919210291964650 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3658853427923518696, guid: f4730c45fa33b8b4da3463f361773f9b, type: 3}
+  m_PrefabInstance: {fileID: 3122919210291964649}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4862081458143936436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1819,33 +1824,24 @@ PrefabInstance:
       propertyPath: m_Name
       value: Barrel
       objectReference: {fileID: 0}
+    - target: {fileID: 6470388951571875663, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
+      propertyPath: mario
+      value: 
+      objectReference: {fileID: 3122919210291964650}
+    - target: {fileID: 6470388951571875663, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
+      propertyPath: levelManagerScript
+      value: 
+      objectReference: {fileID: 406351204}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5818686465765468347, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8770734410713907149}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
 --- !u!1 &8770734410713907148 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5818686465765468347, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
   m_PrefabInstance: {fileID: 8770734410713907147}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8770734410713907149
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8770734410713907148}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ef974d9eb89d5b4f8eba7531262f8d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelManagerScript: {fileID: 0}
-  mario: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
