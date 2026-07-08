@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1556308633592297375}
   m_Layer: 0
   m_Name: Donkey Kong
-  m_TagString: Untagged
+  m_TagString: DonkeyKong
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -130,7 +130,7 @@ MonoBehaviour:
   startDelay: 5
   throwInterval: 7
   throwIntervalVariance: 2
-  projectileSpeed: 2.25
+  projectileSpeed: 1
   playerTag: Player
   animator: {fileID: 0}
   throwTriggerName: ThrowAimed
