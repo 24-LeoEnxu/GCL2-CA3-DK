@@ -6,20 +6,22 @@ public class ExplosiveScript : MonoBehaviour
     private LevelManagerScript levelManagerScript;
     public GameObject mario;
 
-    private explosionScript explosion;
-
+    public GameObject explosion;
+    private explosionScript explosionScript;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         levelManager = GetComponent<GameObject>();
         levelManagerScript = levelManager.GetComponent<LevelManagerScript>();
-        mario = GetComponent<GameObject>();
+        mario = GameObject.FindGameObjectWithTag("Player");
 
-        explosion = GameObject.FindGameObjectWithTag("explosion").GetComponent<explosionScript>();
-        explosion.TriggerExplosion(5);
+        explosion = GetComponent<GameObject>();
+            
+        explosionScript = explosion.GetComponent<explosionScript>();
+        explosionScript.TriggerExplosion(5);
 
-
+        
     }
 
     // Update is called once per frame
