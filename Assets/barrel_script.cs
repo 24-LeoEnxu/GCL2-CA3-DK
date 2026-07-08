@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class barrel_script : MonoBehaviour
@@ -14,6 +15,23 @@ public class barrel_script : MonoBehaviour
         
     }
 
+    void GetDestroyed()
+    {
 
+        gameObject.SetActive(false);
+        print("barrel destroyed");
+
+
+    }
+
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            GetDestroyed();
+
+        }
+    }
 
 }
