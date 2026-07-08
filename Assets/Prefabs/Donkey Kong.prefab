@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2169701111568148499}
   - component: {fileID: 787954162901415460}
   - component: {fileID: 1978233635749518286}
+  - component: {fileID: 1556308633592297375}
   m_Layer: 0
   m_Name: Donkey Kong
   m_TagString: Untagged
@@ -106,9 +107,30 @@ MonoBehaviour:
   spawnIntervalVariance: 0.5
   doubleBarrelChance: 0.05
   doubleBarrelGap: 0.5
-  launchSpeedX: 2.5
+  launchSpeedX: 2.2
   launchSpeedVariance: 0.25
-  launchSpeedY: -0.75
+  launchSpeedY: -0.25
   animator: {fileID: 0}
   throwTriggerName: Throw
   isSpawning: 1
+--- !u!114 &1556308633592297375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2319260290429695557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fc8307351508bd489d604cef8dce50a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  thrownBarrelPrefab: {fileID: 5818686465765468347, guid: 31f245b1e1117714e9499185f2ddf70d, type: 3}
+  throwOrigin: {fileID: 2169701111568148499}
+  startDelay: 5
+  throwInterval: 7
+  throwIntervalVariance: 2
+  projectileSpeed: 2.25
+  playerTag: Player
+  animator: {fileID: 0}
+  throwTriggerName: ThrowAimed
