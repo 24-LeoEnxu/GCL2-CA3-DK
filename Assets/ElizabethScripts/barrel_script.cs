@@ -13,4 +13,18 @@ public class barrel_script : MonoBehaviour
     {
         
     }
+
+    void getDestroyed()
+    {
+        Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            getDestroyed();
+        }
+    }
+
 }
