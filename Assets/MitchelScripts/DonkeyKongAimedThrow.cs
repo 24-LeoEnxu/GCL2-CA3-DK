@@ -26,7 +26,7 @@ public class DonkeyKongAimedThrow : MonoBehaviour
     [SerializeField] private float throwIntervalVariance = 2f;
 
     [Header("Projectile Speed")]
-    [SerializeField] private float projectileSpeed = 2.25f;
+    [SerializeField] private float projectileSpeed = 1f;
 
     [Header("Targeting")]
     [Tooltip("Player tag to search for and aim at.")]
