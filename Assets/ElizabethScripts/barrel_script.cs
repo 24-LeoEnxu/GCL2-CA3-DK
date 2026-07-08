@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class barrel_script : MonoBehaviour
 {
-    public LevelManagerScript levelManagerScript;
+    public GameObject levelManager;
+    private LevelManagerScript levelManagerScript;
     public GameObject mario;
 
     
@@ -11,7 +12,8 @@ public class barrel_script : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        levelManagerScript = GetComponent<LevelManagerScript>();
+        levelManager = GetComponent<GameObject>();
+        levelManagerScript = levelManager.GetComponent<LevelManagerScript>();
         mario = GetComponent<GameObject>();
     }
 
@@ -26,11 +28,13 @@ public class barrel_script : MonoBehaviour
         Destroy(gameObject);
     }
 
+    
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
-            getDestroyed();
+            levelManagerScript.marioDie();
         }
     }
 

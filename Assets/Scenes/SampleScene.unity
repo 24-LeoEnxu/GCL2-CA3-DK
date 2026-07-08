@@ -148,9 +148,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0542497a90335c54e9266ba293604565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  barrel: {fileID: 0}
-  donkeyKong: {fileID: 0}
-  mario: {fileID: 0}
+  barrel: {fileID: 5818686465765468347, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
+  donkeyKong: {fileID: 1039426211}
+  mario: {fileID: 3658853427923518696, guid: f4730c45fa33b8b4da3463f361773f9b, type: 3}
 --- !u!4 &406351205
 Transform:
   m_ObjectHideFlags: 0
@@ -939,6 +939,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 644a8bf3c3313b548a8560df987ccd47, type: 3}
+--- !u!1 &1039426211 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2319260290429695557, guid: 644a8bf3c3313b548a8560df987ccd47, type: 3}
+  m_PrefabInstance: {fileID: 1039426210}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1231505343 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2296388645486875616, guid: 4f3913c112d28f247b3ac2011eef3a6a, type: 3}
