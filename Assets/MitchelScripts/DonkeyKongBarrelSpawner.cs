@@ -10,34 +10,34 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
 {
     [Header("Barrel Setup")]
     [Tooltip("Barrel prefab to spawn. Must have the 'Barrel' tag on it.")]
-    [SerializeField] private GameObject barrelPrefab;
+    [SerializeField] public GameObject barrelPrefab;
 
-    [Tooltip("Point where barrels spawn from (usually DK's hands/arms).")]
+    [Tooltip("Point where barrels spawn from.")]
     [SerializeField] private Transform spawnPoint;
 
     [Header("Spawn Timing (seconds)")]
-    [Tooltip("Base time between barrel spawns. Original arcade averages ~4-5s.")]
-    [SerializeField] private float baseSpawnInterval = 4.5f;
+    [Tooltip("Base time between barrel spawns.")]
+    [SerializeField] private float baseSpawnInterval = 5f;
 
     [Tooltip("Random variation added/subtracted from base interval.")]
-    [SerializeField] private float spawnIntervalVariance = 1.0f;
+    [SerializeField] private float spawnIntervalVariance = 0.5f;
 
-    [Tooltip("Chance (0-1) that DK throws a 'double barrel' in quick succession, like the original.")]
+    [Tooltip("Chance (0-1) that DK throws a 'double barrel' in quick succession.")]
     [Range(0f, 1f)]
-    [SerializeField] private float doubleBarrelChance = 0.15f;
+    [SerializeField] private float doubleBarrelChance = 0.05f;
 
     [Tooltip("Delay between the two barrels in a double-barrel throw.")]
-    [SerializeField] private float doubleBarrelGap = 0.4f;
+    [SerializeField] private float doubleBarrelGap = 0.5f;
 
     [Header("Launch Velocity")]
     [Tooltip("Initial rightward speed given to spawned barrels.")]
-    [SerializeField] private float launchSpeedX = 2.5f;
+    [SerializeField] private float launchSpeedX = 2.2f;
 
     [Tooltip("Small random variance added to the launch speed for natural feel.")]
-    [SerializeField] private float launchSpeedVariance = 0.3f;
+    [SerializeField] private float launchSpeedVariance = 0.25f;
 
-    [Tooltip("Optional slight downward/upward nudge on spawn (usually 0 or small negative for a drop arc).")]
-    [SerializeField] private float launchSpeedY = 0f;
+    [Tooltip("Slight downward/upward nudge on spawn.")]
+    [SerializeField] private float launchSpeedY = -0.25f;
 
     [Header("Animation (optional)")]
     [SerializeField] private Animator animator;
@@ -80,7 +80,7 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
 
     private IEnumerator SpawnLoop()
     {
-        // Small initial delay before the first barrel, like the arcade intro
+        // Small initial delay before the first barrel
         yield return new WaitForSeconds(2f);
 
         while (isSpawning)
@@ -115,7 +115,6 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
 
         GameObject barrel = Instantiate(barrelPrefab, spawnPoint.position, spawnPoint.rotation);
 
-        // Ensure the tag is set correctly even if the prefab wasn't tagged manually
         if (!barrel.CompareTag(BarrelTag))
         {
             barrel.tag = BarrelTag;
@@ -135,18 +134,10 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
             return;
         }
 
-        // Fallback for 3D Rigidbody, in case barrels use full 3D physics
-        Rigidbody rb3D = barrel.GetComponent<Rigidbody>();
-        if (rb3D != null)
-        {
-            rb3D.linearVelocity = new Vector3(speedX, launchSpeedY, 0f);
-            return;
-        }
-
         Debug.LogWarning("DonkeyKongBarrelSpawner: Barrel prefab has no Rigidbody2D or Rigidbody to apply velocity to.");
     }
 
-    // Optional: call this from a GameManager to stop DK throwing when Mario dies/level restarts
+    // Call from a GameManager to stop DK throwing on Mario death/level restart
     public void SetSpawningActive(bool active)
     {
         isSpawning = active;

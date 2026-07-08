@@ -2,10 +2,17 @@ using UnityEngine;
 
 public class barrel_script : MonoBehaviour
 {
+    public LevelManagerScript levelManagerScript;
+    public GameObject mario;
+
+    
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        levelManagerScript = GetComponent<LevelManagerScript>();
+        mario = GetComponent<GameObject>();
     }
 
     // Update is called once per frame

@@ -3,10 +3,19 @@ using UnityEngine.SceneManagement;
 
 public class LevelManagerScript : MonoBehaviour
 {
+    public GameObject barrel;
+    public GameObject donkeyKong;
+    public GameObject mario;
+
+    
+    
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        barrel = GetComponent<GameObject>();
+        mario = GetComponent<GameObject>();
+        donkeyKong = GetComponent<GameObject>();
     }
 
     // Update is called once per frame
@@ -26,6 +35,7 @@ public class LevelManagerScript : MonoBehaviour
         gameOverScreen.SetActive(true);
         gameOverSound.Play();
         */
+
 
     }
 }
