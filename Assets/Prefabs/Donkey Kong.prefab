@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2169701111568148499}
   - component: {fileID: 787954162901415460}
+  - component: {fileID: 1978233635749518286}
   m_Layer: 0
   m_Name: Donkey Kong
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2319260290429695557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.91, y: 0.4976828, z: 0}
+  m_LocalPosition: {x: -0.7846405, y: 0.49781826, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -87,3 +88,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1978233635749518286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2319260290429695557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e45812b7471cead41aca34307deca36c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  barrelPrefab: {fileID: 5818686465765468347, guid: d0ef465cdf0547a4bb144fef0889e2d5, type: 3}
+  spawnPoint: {fileID: 2169701111568148499}
+  baseSpawnInterval: 5
+  spawnIntervalVariance: 0.5
+  doubleBarrelChance: 0.05
+  doubleBarrelGap: 0.5
+  launchSpeedX: 2.5
+  launchSpeedVariance: 0.25
+  launchSpeedY: -0.75
+  animator: {fileID: 0}
+  throwTriggerName: Throw
+  isSpawning: 1
