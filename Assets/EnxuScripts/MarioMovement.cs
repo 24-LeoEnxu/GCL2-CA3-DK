@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class MarioMovement : MonoBehaviour
 {
+    Animator animator;
+
     float horizontalInput;
     float moveSpeed = 0.4f;
     bool isFacingRight = false;
@@ -18,6 +20,7 @@ public class MarioMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         gcs = FindFirstObjectByType<GroundCheckScript>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -34,6 +37,8 @@ public class MarioMovement : MonoBehaviour
             isJumping = true;
             gcs.isGrounded = false;
         }
+
+        animator.SetFloat("MarioMoving", horizontalInput);
     }
 
     private void FixedUpdate()
