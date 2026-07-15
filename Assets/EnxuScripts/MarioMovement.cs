@@ -107,7 +107,7 @@ public class MarioMovement : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if(collider.CompareTag("Ladder") && Input.GetKeyDown(Keycode.W) || collider.CompareTag("Ladder") && Input.GetKeyDown(KeyCode.UpArrow))
+        if(collider.CompareTag("Ladder") && Input.GetKeyDown(KeyCode.W) || collider.CompareTag("Ladder") && Input.GetKeyDown(KeyCode.UpArrow))
         {
             isClimbing = false;
             bCollider.isTrigger = false;
