@@ -21,7 +21,7 @@ public class MarioMovement : MonoBehaviour
     //Ladder
     bool isClimbing = false;
     BoxCollider2D bCollider;
-    float climbSpeed = 0.1f;
+    float climbSpeed = 0.15f;
 
     //Hammer
     bool hammerPower = false;
@@ -82,6 +82,7 @@ public class MarioMovement : MonoBehaviour
         //Animation change for hammer powerup pickup
         if(hammerPower)
         {
+            isClimbing = false;
             animator.SetBool("MarioHammer", true);
             hammerTimer -= Time.deltaTime;
         }

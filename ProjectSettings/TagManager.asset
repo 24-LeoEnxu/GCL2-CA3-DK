@@ -11,6 +11,7 @@ TagManager:
   - DonkeyKong
   - Hammer
   - HammerPowerup
+  - BarrelBurner
   layers:
   - Default
   - TransparentFX
