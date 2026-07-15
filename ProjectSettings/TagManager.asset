@@ -9,6 +9,8 @@ TagManager:
   - Barrel
   - ThrownBarrel
   - DonkeyKong
+  - Hammer
+  - HammerPowerup
   layers:
   - Default
   - TransparentFX

@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class MarioMovement : MonoBehaviour
 {
+    //Animation
     Animator animator;
 
+    //WASD or Arrow Keys Inputs, move and jump speed
     float horizontalInput;
     float moveSpeed = 0.4f;
     bool isFacingRight = false;
@@ -12,12 +14,19 @@ public class MarioMovement : MonoBehaviour
 
     Rigidbody2D rb;
 
+    //GroundCheck
     public GameObject groundCheck;
     public GroundCheckScript gcs;
 
+    //Ladder
     bool isClimbing = false;
     BoxCollider2D bCollider;
-    float climbForce = 10f;
+    float climbSpeed = 0.1f;
+
+    //Hammer
+    bool hammerPower = false;
+    public GameObject hammerHitbox;
+    float hammerTimer = 8f;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -59,15 +68,30 @@ public class MarioMovement : MonoBehaviour
         }
 
         //If player is on ladder and press W/Up
-        if(Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) && isClimbing)
+        if(Input.GetKey(KeyCode.W) && isClimbing || Input.GetKey(KeyCode.UpArrow) && isClimbing)
         {
-            rb.AddForce(transform.up * climbForce);
+            transform.position = new Vector2(transform.position.x, transform.position.y + climbSpeed * Time.deltaTime);
         }
 
         //If player is on ladder and press S/Down
-        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) && isClimbing)
+        if (Input.GetKey(KeyCode.S) && isClimbing || Input.GetKey(KeyCode.DownArrow) && isClimbing)
         {
-            rb.AddForce(transform.up * -climbForce);
+            transform.position = new Vector2(transform.position.x, transform.position.y - climbSpeed * Time.deltaTime);
+        }
+
+        //Animation change for hammer powerup pickup
+        if(hammerPower)
+        {
+            animator.SetBool("MarioHammer", true);
+            hammerTimer -= Time.deltaTime;
+        }
+
+        if(hammerTimer <= 0)
+        {
+            hammerPower = false;
+            animator.SetBool("MarioHammer", false);
+            hammerTimer = 8f;
+            hammerHitbox.SetActive(false);
         }
     }
 
@@ -79,7 +103,7 @@ public class MarioMovement : MonoBehaviour
     void FlipSprite()
     {
         //Flips sprite depending on player input
-        if(isFacingRight && horizontalInput < 0f || !isFacingRight && horizontalInput > 0f)
+        if(isFacingRight && horizontalInput < 0f && !isClimbing|| !isFacingRight && horizontalInput > 0f && !isClimbing)
         {
             isFacingRight = !isFacingRight;
             Vector3 ls = transform.localScale;
@@ -93,9 +117,9 @@ public class MarioMovement : MonoBehaviour
         isJumping = false;
     }
 
-    //Check if player is on ladder
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        //Check if player is on ladder
         if(collider.CompareTag("Ladder"))
         {
             isClimbing = true;
@@ -103,11 +127,19 @@ public class MarioMovement : MonoBehaviour
             rb.gravityScale = 0f;
             isJumping = true;
         }
+
+        if(collider.CompareTag("HammerPowerup"))
+        {
+            Destroy(collider.gameObject);
+            hammerPower = true;
+            hammerHitbox.SetActive(true);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        if(collider.CompareTag("Ladder") && Input.GetKeyDown(KeyCode.W) || collider.CompareTag("Ladder") && Input.GetKeyDown(KeyCode.UpArrow))
+        //Check if player is off ladder
+        if(collider.CompareTag("Ladder"))
         {
             isClimbing = false;
             bCollider.isTrigger = false;
