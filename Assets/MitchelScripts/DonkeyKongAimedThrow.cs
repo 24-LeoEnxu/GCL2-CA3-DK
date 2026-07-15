@@ -1,68 +1,49 @@
 using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// Attach this to the Donkey Kong GameObject alongside DonkeyKongBarrelSpawner.
-/// After a delay, DK starts periodically hurling ThrownBarrel projectiles
-/// directly at Mario (Player) in a straight line, ignoring platforms.
-/// </summary>
 public class DonkeyKongAimedThrow : MonoBehaviour
 {
-    [Header("Thrown Barrel Setup")]
-    [Tooltip("Projectile prefab. Should have ThrownBarrel.cs, a CircleCollider2D (Is Trigger), no Rigidbody2D needed.")]
-    [SerializeField] public GameObject thrownBarrelPrefab;
+    [SerializeField] private GameObject thrownBarrelPrefab; // the barrel he throws straight at mario
+    [SerializeField] private Transform throwOrigin; // where it spawns from (dk's hand basically)
 
-    [Tooltip("Point where thrown barrels originate from (DK's hands/arms).")]
-    [SerializeField] private Transform throwOrigin;
+    [SerializeField] private float startDelay = 30f; // waits this long before he starts throwing
+    [SerializeField] private float throwInterval = 5f; // time between throws
+    [SerializeField] private float throwIntervalVariance = 1f; // adds a bit of randomness so its not robotic
 
-    [Header("Timing")]
-    [Tooltip("Delay in seconds before DK starts this attack pattern.")]
-    [SerializeField] private float startDelay = 30f;
+    [SerializeField] private float projectileSpeed = 6f; // how fast the barrel flies
 
-    [Tooltip("Base time between aimed throws once active.")]
-    [SerializeField] private float throwInterval = 7f;
+    [SerializeField] private string playerTag = "Player"; // tag we search for to find mario
 
-    [Tooltip("Random variance added/subtracted from throwInterval.")]
-    [SerializeField] private float throwIntervalVariance = 2f;
+    [SerializeField] private Animator animator; // optional, for the throw anim
+    [SerializeField] private string throwTriggerName = "ThrowAimed"; // anim trigger name
 
-    [Header("Projectile Speed")]
-    [SerializeField] private float projectileSpeed = 2.25f;
-
-    [Header("Targeting")]
-    [Tooltip("Player tag to search for and aim at.")]
-    [SerializeField] private string playerTag = "Player";
-
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private string throwTriggerName = "ThrowAimed";
-
-    private Coroutine throwRoutine;
+    private Coroutine throwRoutine; // so we can stop it later if needed
 
     private void OnEnable()
     {
-        throwRoutine = StartCoroutine(AimedThrowLoop());
+        throwRoutine = StartCoroutine(AimedThrowLoop()); // starts the loop when dk is enabled
     }
 
     private void OnDisable()
     {
         if (throwRoutine != null)
         {
-            StopCoroutine(throwRoutine);
-            throwRoutine = null;
+            StopCoroutine(throwRoutine); // stop the coroutine so it doesnt run in bg
+            throwRoutine = null; // reset just in case
         }
     }
 
     private IEnumerator AimedThrowLoop()
     {
-        yield return new WaitForSeconds(startDelay);
+        yield return new WaitForSeconds(startDelay); // wait the initial 30s before he gets mean
 
-        while (true)
+        while (true) // keeps throwing forever once it starts, might wanna add a stop condition later
         {
-            ThrowAtPlayer();
+            ThrowAtPlayer(); // do the throw
 
-            float wait = throwInterval + Random.Range(-throwIntervalVariance, throwIntervalVariance);
-            wait = Mathf.Max(wait, 0.5f);
-            yield return new WaitForSeconds(wait);
+            float wait = throwInterval + Random.Range(-throwIntervalVariance, throwIntervalVariance); // randomize the wait a bit
+            wait = Mathf.Max(wait, 0.5f); // just in case the random makes it negative or too small
+            yield return new WaitForSeconds(wait); // wait before next throw
         }
     }
 
@@ -70,34 +51,34 @@ public class DonkeyKongAimedThrow : MonoBehaviour
     {
         if (thrownBarrelPrefab == null || throwOrigin == null)
         {
-            Debug.LogWarning("DonkeyKongAimedThrow: Missing thrownBarrelPrefab or throwOrigin reference.");
+            Debug.LogWarning("DonkeyKongAimedThrow: Missing thrownBarrelPrefab or throwOrigin reference."); // forgot to assign something in inspector probably
             return;
         }
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag);
+        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag); // find mario in the scene, kinda expensive but whatever its not every frame
         if (playerObj == null)
         {
-            Debug.LogWarning("DonkeyKongAimedThrow: No GameObject found with tag '" + playerTag + "'.");
+            Debug.LogWarning("DonkeyKongAimedThrow: No GameObject found with tag '" + playerTag + "'."); // no player tag found, oops
             return;
         }
 
         if (animator != null && !string.IsNullOrEmpty(throwTriggerName))
         {
-            animator.SetTrigger(throwTriggerName);
+            animator.SetTrigger(throwTriggerName); // play throw anim if we have one
         }
 
-        Vector2 direction = ((Vector2)playerObj.transform.position - (Vector2)throwOrigin.position).normalized;
+        Vector2 direction = ((Vector2)playerObj.transform.position - (Vector2)throwOrigin.position).normalized; // math to get direction towards mario
 
-        GameObject projectile = Instantiate(thrownBarrelPrefab, throwOrigin.position, Quaternion.identity);
+        GameObject projectile = Instantiate(thrownBarrelPrefab, throwOrigin.position, Quaternion.identity); // spawn the barrel
 
-        ThrownBarrel tb = projectile.GetComponent<ThrownBarrel>();
+        ThrownBarrel tb = projectile.GetComponent<ThrownBarrel>(); // grab the script off it
         if (tb != null)
         {
-            tb.Launch(direction, projectileSpeed);
+            tb.Launch(direction, projectileSpeed); // send it flying
         }
         else
         {
-            Debug.LogWarning("DonkeyKongAimedThrow: thrownBarrelPrefab has no ThrownBarrel component.");
+            Debug.LogWarning("DonkeyKongAimedThrow: thrownBarrelPrefab has no ThrownBarrel component."); // forgot to add the script to the prefab
         }
     }
 }

@@ -1,101 +1,74 @@
 using UnityEngine;
 using System.Collections;
 
-/// <summary>
-/// Attach this to the Donkey Kong GameObject.
-/// Handles spawning barrels from DK's position, mimicking the
-/// cadence of the original 1980 arcade game.
-/// </summary>
 public class DonkeyKongBarrelSpawner : MonoBehaviour
 {
-    [Header("Barrel Setup")]
-    [Tooltip("Barrel prefab to spawn. Must have the 'Barrel' tag on it.")]
-    [SerializeField] public GameObject barrelPrefab;
+    [SerializeField] private GameObject barrelPrefab; // normal rolling barrel, needs Barrel tag
+    [SerializeField] private Transform spawnPoint; // where barrels spawn from
 
-    [Tooltip("Point where barrels spawn from.")]
-    [SerializeField] private Transform spawnPoint;
+    [SerializeField] private float baseSpawnInterval = 4.5f; // avg time between spawns, matches arcade roughly
+    [SerializeField] private float spawnIntervalVariance = 1.0f; // randomness so its not too predictable
 
-    [Header("Spawn Timing (seconds)")]
-    [Tooltip("Base time between barrel spawns.")]
-    [SerializeField] private float baseSpawnInterval = 5f;
-
-    [Tooltip("Random variation added/subtracted from base interval.")]
-    [SerializeField] private float spawnIntervalVariance = 0.5f;
-
-    [Tooltip("Chance (0-1) that DK throws a 'double barrel' in quick succession.")]
     [Range(0f, 1f)]
-    [SerializeField] private float doubleBarrelChance = 0.05f;
+    [SerializeField] private float doubleBarrelChance = 0.15f; // chance he throws 2 in a row like the og game
 
-    [Tooltip("Delay between the two barrels in a double-barrel throw.")]
-    [SerializeField] private float doubleBarrelGap = 0.5f;
+    [SerializeField] private float doubleBarrelGap = 0.4f; // time between the double barrel throws
 
-    [Header("Launch Velocity")]
-    [Tooltip("Initial rightward speed given to spawned barrels.")]
-    [SerializeField] private float launchSpeedX = 2.2f;
+    [SerializeField] private float launchSpeedX = 2.5f; // pushes barrel right when it spawns
+    [SerializeField] private float launchSpeedVariance = 0.3f; // slight random variation so barrels dont look identical
+    [SerializeField] private float launchSpeedY = 0f; // usually 0, can tweak for a lil drop arc
 
-    [Tooltip("Small random variance added to the launch speed for natural feel.")]
-    [SerializeField] private float launchSpeedVariance = 0.25f;
+    [SerializeField] private Animator animator; // optional throw anim
+    [SerializeField] private string throwTriggerName = "Throw"; // anim trigger name
 
-    [Tooltip("Slight downward/upward nudge on spawn.")]
-    [SerializeField] private float launchSpeedY = -0.25f;
+    private const string BarrelTag = "Barrel"; // just so i dont typo the tag string everywhere
 
-    [Header("Animation (optional)")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private string throwTriggerName = "Throw";
+    [SerializeField] private bool isSpawning = true; // toggle for turning spawning on/off from inspector or code
 
-    [Header("Barrel Tag")]
-    private const string BarrelTag = "Barrel";
-
-    [Header("Gameplay Control")]
-    [Tooltip("Toggle to start/stop DK's barrel spawning (e.g. when player dies or level ends).")]
-    [SerializeField] private bool isSpawning = true;
-
-    private Coroutine spawnRoutine;
+    private Coroutine spawnRoutine; // reference so we can stop it
 
     private void OnEnable()
     {
         if (isSpawning)
-            StartSpawning();
+            StartSpawning(); // auto starts if the bool is true
     }
 
     private void OnDisable()
     {
-        StopSpawning();
+        StopSpawning(); // cleanup when disabled so it doesnt keep running
     }
 
     public void StartSpawning()
     {
         if (spawnRoutine == null)
-            spawnRoutine = StartCoroutine(SpawnLoop());
+            spawnRoutine = StartCoroutine(SpawnLoop()); // only start if not already running
     }
 
     public void StopSpawning()
     {
         if (spawnRoutine != null)
         {
-            StopCoroutine(spawnRoutine);
-            spawnRoutine = null;
+            StopCoroutine(spawnRoutine); // stop it
+            spawnRoutine = null; // reset the ref
         }
     }
 
     private IEnumerator SpawnLoop()
     {
-        // Small initial delay before the first barrel
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(2f); // small delay before first barrel, like the intro
 
-        while (isSpawning)
+        while (isSpawning) // keeps going as long as this is true
         {
-            SpawnBarrel();
+            SpawnBarrel(); // spawn one
 
-            // Occasionally throw a second barrel shortly after (double barrel)
-            if (Random.value < doubleBarrelChance)
+            if (Random.value < doubleBarrelChance) // sometimes throw a second one right after
             {
                 yield return new WaitForSeconds(doubleBarrelGap);
                 SpawnBarrel();
             }
 
-            float wait = baseSpawnInterval + Random.Range(-spawnIntervalVariance, spawnIntervalVariance);
-            wait = Mathf.Max(wait, 0.5f); // safety floor
+            float wait = baseSpawnInterval + Random.Range(-spawnIntervalVariance, spawnIntervalVariance); // randomize next wait time
+            wait = Mathf.Max(wait, 0.5f); // stop it going too low or negative
             yield return new WaitForSeconds(wait);
         }
     }
@@ -104,46 +77,52 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
     {
         if (barrelPrefab == null || spawnPoint == null)
         {
-            Debug.LogWarning("DonkeyKongBarrelSpawner: Missing barrelPrefab or spawnPoint reference.");
+            Debug.LogWarning("DonkeyKongBarrelSpawner: Missing barrelPrefab or spawnPoint reference."); // forgot to drag something in inspector
             return;
         }
 
         if (animator != null && !string.IsNullOrEmpty(throwTriggerName))
         {
-            animator.SetTrigger(throwTriggerName);
+            animator.SetTrigger(throwTriggerName); // play the throw anim
         }
 
-        GameObject barrel = Instantiate(barrelPrefab, spawnPoint.position, spawnPoint.rotation);
+        GameObject barrel = Instantiate(barrelPrefab, spawnPoint.position, spawnPoint.rotation); // actually spawn it
 
         if (!barrel.CompareTag(BarrelTag))
         {
-            barrel.tag = BarrelTag;
+            barrel.tag = BarrelTag; // just in case the prefab wasnt tagged right, fix it here
         }
 
-        ApplyLaunchVelocity(barrel);
+        ApplyLaunchVelocity(barrel); // give it a push to the right
     }
 
     private void ApplyLaunchVelocity(GameObject barrel)
     {
-        Rigidbody2D rb2D = barrel.GetComponent<Rigidbody2D>();
-        float speedX = launchSpeedX + Random.Range(-launchSpeedVariance, launchSpeedVariance);
+        Rigidbody2D rb2D = barrel.GetComponent<Rigidbody2D>(); // try get 2d rigidbody first since this is 2d game
+        float speedX = launchSpeedX + Random.Range(-launchSpeedVariance, launchSpeedVariance); // randomize speed a lil
 
         if (rb2D != null)
         {
-            rb2D.linearVelocity = new Vector2(speedX, launchSpeedY);
+            rb2D.linearVelocity = new Vector2(speedX, launchSpeedY); // apply velocity, new unity 6 name for it
             return;
         }
 
-        Debug.LogWarning("DonkeyKongBarrelSpawner: Barrel prefab has no Rigidbody2D or Rigidbody to apply velocity to.");
+        Rigidbody rb3D = barrel.GetComponent<Rigidbody>(); // fallback if somehow using 3d physics
+        if (rb3D != null)
+        {
+            rb3D.linearVelocity = new Vector3(speedX, launchSpeedY, 0f);
+            return;
+        }
+
+        Debug.LogWarning("DonkeyKongBarrelSpawner: Barrel prefab has no Rigidbody2D or Rigidbody to apply velocity to."); // no rigidbody found at all, need to add one
     }
 
-    // Call from a GameManager to stop DK throwing on Mario death/level restart
     public void SetSpawningActive(bool active)
     {
-        isSpawning = active;
+        isSpawning = active; // update the flag
         if (active)
-            StartSpawning();
+            StartSpawning(); // turn it on
         else
-            StopSpawning();
+            StopSpawning(); // turn it off
     }
 }
