@@ -19,7 +19,7 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
     [SerializeField] private float launchSpeedY = 0f; // usually 0, can tweak for a lil drop arc
 
     [SerializeField] private Animator animator; // optional throw anim
-    [SerializeField] private string throwTriggerName = "Throw"; // anim trigger name
+    [SerializeField] private string throwTriggerName = "BarrelToss"; // anim trigger name
 
     private const string BarrelTag = "Barrel"; // just so i dont typo the tag string everywhere
 

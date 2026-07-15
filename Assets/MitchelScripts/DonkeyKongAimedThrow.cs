@@ -6,7 +6,7 @@ public class DonkeyKongAimedThrow : MonoBehaviour
     [SerializeField] private GameObject thrownBarrelPrefab; // the barrel he throws straight at mario
     [SerializeField] private Transform throwOrigin; // where it spawns from
 
-    [SerializeField] private float startDelay = 30f; // waits this long before he starts throwing
+    [SerializeField] private float startDelay = 15f; // waits this long before he starts throwing
     [SerializeField] private float throwInterval = 5f; // time between throws
     [SerializeField] private float throwIntervalVariance = 1f; // adds a bit of randomness
 
@@ -15,7 +15,8 @@ public class DonkeyKongAimedThrow : MonoBehaviour
     [SerializeField] private string playerTag = "Player"; // tag we search for to find mario
 
     [SerializeField] private Animator animator; // optional, for the throw anim
-    [SerializeField] private string throwTriggerName = "ThrowAimed"; // anim trigger name
+    [SerializeField] private string throwTriggerName = "RageThrow"; // throw anim trigger name
+    [SerializeField] private string rageBoolName = "IsRaging"; // rage anim trigger name
 
     private Coroutine throwRoutine; // so we can stop it later if needed
 
@@ -35,7 +36,12 @@ public class DonkeyKongAimedThrow : MonoBehaviour
 
     private IEnumerator AimedThrowLoop()
     {
-        yield return new WaitForSeconds(startDelay); // wait the initial 30s before he rages
+        yield return new WaitForSeconds(startDelay); // wait the initial 15s before he rages
+
+        if (animator != null)
+        {
+            animator.SetBool(rageBoolName, true); // turns DK into his rage animation
+        }
 
         while (true) // keeps throwing forever once it starts, might wanna add a stop condition later
         {
