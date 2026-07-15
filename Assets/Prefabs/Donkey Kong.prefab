@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2169701111568148499}
+  - component: {fileID: 1080787692761065956}
   - component: {fileID: 787954162901415460}
   - component: {fileID: 1978233635749518286}
   - component: {fileID: 1556308633592297375}
@@ -28,12 +29,34 @@ Transform:
   m_GameObject: {fileID: 2319260290429695557}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7846405, y: 0.49781826, z: 0}
+  m_LocalPosition: {x: -0.74419725, y: 0.75600016, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1080787692761065956
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2319260290429695557}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: efac56f521e7bf74094b0d5936d5b9c9, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!212 &787954162901415460
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -110,8 +133,8 @@ MonoBehaviour:
   launchSpeedX: 2.2
   launchSpeedVariance: 0.25
   launchSpeedY: -0.25
-  animator: {fileID: 0}
-  throwTriggerName: Throw
+  animator: {fileID: 1080787692761065956}
+  throwTriggerName: BarrelToss
   isSpawning: 1
 --- !u!114 &1556308633592297375
 MonoBehaviour:
@@ -132,5 +155,6 @@ MonoBehaviour:
   throwIntervalVariance: 2
   projectileSpeed: 1
   playerTag: Player
-  animator: {fileID: 0}
-  throwTriggerName: ThrowAimed
+  animator: {fileID: 1080787692761065956}
+  throwTriggerName: RageThrow
+  rageBoolName: IsRaging
