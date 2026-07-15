@@ -8,6 +8,7 @@ TagManager:
   - Ladder
   - Barrel
   - ThrownBarrel
+  - DonkeyKong
   layers:
   - Default
   - TransparentFX

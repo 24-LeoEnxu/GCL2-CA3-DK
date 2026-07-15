@@ -4,11 +4,11 @@ using System.Collections;
 public class DonkeyKongAimedThrow : MonoBehaviour
 {
     [SerializeField] private GameObject thrownBarrelPrefab; // the barrel he throws straight at mario
-    [SerializeField] private Transform throwOrigin; // where it spawns from (dk's hand basically)
+    [SerializeField] private Transform throwOrigin; // where it spawns from
 
     [SerializeField] private float startDelay = 30f; // waits this long before he starts throwing
     [SerializeField] private float throwInterval = 5f; // time between throws
-    [SerializeField] private float throwIntervalVariance = 1f; // adds a bit of randomness so its not robotic
+    [SerializeField] private float throwIntervalVariance = 1f; // adds a bit of randomness
 
     [SerializeField] private float projectileSpeed = 6f; // how fast the barrel flies
 
@@ -16,6 +16,17 @@ public class DonkeyKongAimedThrow : MonoBehaviour
 
     [SerializeField] private Animator animator; // optional, for the throw anim
     [SerializeField] private string throwTriggerName = "ThrowAimed"; // anim trigger name
+
+    [Header("Projectile Speed")]
+    [SerializeField] private float projectileSpeed = 1f;
+
+    [Header("Targeting")]
+    [Tooltip("Player tag to search for and aim at.")]
+    [SerializeField] private string playerTag = "Player";
+
+    [Header("Animation")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string throwTriggerName = "ThrowAimed";
 
     private Coroutine throwRoutine; // so we can stop it later if needed
 
@@ -35,7 +46,7 @@ public class DonkeyKongAimedThrow : MonoBehaviour
 
     private IEnumerator AimedThrowLoop()
     {
-        yield return new WaitForSeconds(startDelay); // wait the initial 30s before he gets mean
+        yield return new WaitForSeconds(startDelay); // wait the initial 30s before he rages
 
         while (true) // keeps throwing forever once it starts, might wanna add a stop condition later
         {
@@ -51,14 +62,14 @@ public class DonkeyKongAimedThrow : MonoBehaviour
     {
         if (thrownBarrelPrefab == null || throwOrigin == null)
         {
-            Debug.LogWarning("DonkeyKongAimedThrow: Missing thrownBarrelPrefab or throwOrigin reference."); // forgot to assign something in inspector probably
+            Debug.LogWarning("DonkeyKongAimedThrow: Missing thrownBarrelPrefab or throwOrigin reference."); // if forgot to assign something in inspector
             return;
         }
 
-        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag); // find mario in the scene, kinda expensive but whatever its not every frame
+        GameObject playerObj = GameObject.FindGameObjectWithTag(playerTag); // find mario in the scene
         if (playerObj == null)
         {
-            Debug.LogWarning("DonkeyKongAimedThrow: No GameObject found with tag '" + playerTag + "'."); // no player tag found, oops
+            Debug.LogWarning("DonkeyKongAimedThrow: No GameObject found with tag '" + playerTag + "'."); // no player tag found
             return;
         }
 
@@ -78,7 +89,7 @@ public class DonkeyKongAimedThrow : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("DonkeyKongAimedThrow: thrownBarrelPrefab has no ThrownBarrel component."); // forgot to add the script to the prefab
+            Debug.LogWarning("DonkeyKongAimedThrow: thrownBarrelPrefab has no ThrownBarrel component."); // if forgot to add the script to the prefab
         }
     }
 }

@@ -13,9 +13,9 @@ public class LevelManagerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        barrel = GetComponent<GameObject>();
-        mario = GetComponent<GameObject>();
-        donkeyKong = GetComponent<GameObject>();
+        barrel = GameObject.FindWithTag("Barrel");
+        mario = GameObject.FindWithTag("Player");
+        donkeyKong = GameObject.FindWithTag("DonkeyKong");
         marioMovement = mario.GetComponent<MarioMovement>();
     }
 
