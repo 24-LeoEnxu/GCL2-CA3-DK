@@ -1903,7 +1903,7 @@ TextureImporter:
         width: 8
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -1912,6 +1912,50 @@ TextureImporter:
       bones: []
       spriteID: 78670424f984d3348acb2b771a89aeb4
       internalID: -1490496499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HalfPlatform
+      rect:
+        serializedVersion: 2
+        x: 332
+        y: 57
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cee52e323cc8a1f45aff43583524f4ec
+      internalID: -55684275
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: HLadder
+      rect:
+        serializedVersion: 2
+        x: 312
+        y: 59
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7821c96bf84a1414eb9bc24191404c8d
+      internalID: 1055208235
       vertices: []
       indices: 
       edges: []
@@ -1930,7 +1974,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      HLadder: 1055208235
       HalfLadder: 543367951
+      HalfPlatform: -55684275
       Untitled_0: 21300000
       Untitled_1: 21300002
       Untitled_100: 21300136
