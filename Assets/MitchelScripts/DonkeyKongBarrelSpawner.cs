@@ -103,18 +103,12 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
 
         if (rb2D != null)
         {
-            rb2D.linearVelocity = new Vector2(speedX, launchSpeedY); // apply velocity, new unity 6 name for it
+            rb2D.linearVelocity = new Vector2(speedX, launchSpeedY); // apply velocity
             return;
         }
 
-        Rigidbody rb3D = barrel.GetComponent<Rigidbody>(); // fallback if somehow using 3d physics
-        if (rb3D != null)
-        {
-            rb3D.linearVelocity = new Vector3(speedX, launchSpeedY, 0f);
-            return;
-        }
 
-        Debug.LogWarning("DonkeyKongBarrelSpawner: Barrel prefab has no Rigidbody2D or Rigidbody to apply velocity to."); // no rigidbody found at all, need to add one
+        Debug.LogWarning("DonkeyKongBarrelSpawner: Barrel prefab has no Rigidbody2D to apply velocity to."); // no rigidbody found
     }
 
     public void SetSpawningActive(bool active)

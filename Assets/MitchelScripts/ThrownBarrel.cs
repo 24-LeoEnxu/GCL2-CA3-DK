@@ -12,7 +12,7 @@ public class ThrownBarrel : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, lifetime); // cleanup timer, stops it flying forever if it misses
+        Destroy(gameObject, lifetime); // cleanup timer
     }
 
     public void Launch(Vector2 dir, float launchSpeed)
@@ -44,7 +44,7 @@ public class ThrownBarrel : MonoBehaviour
     private void TriggerGameOver()
     {
         // TODO: hook this into an actual GameManager later
-        Debug.Log("GAME OVER — Mario hit by thrown barrel."); // just a placeholder for now
-        Time.timeScale = 0f; // freezes everything so i can see it worked
+        Debug.Log("GAME OVER — Mario hit by thrown barrel."); // placeholder
+        Time.timeScale = 0f; // freezes everything so i can see it works
     }
 }

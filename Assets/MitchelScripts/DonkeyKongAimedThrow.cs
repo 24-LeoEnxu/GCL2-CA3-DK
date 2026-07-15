@@ -17,17 +17,6 @@ public class DonkeyKongAimedThrow : MonoBehaviour
     [SerializeField] private Animator animator; // optional, for the throw anim
     [SerializeField] private string throwTriggerName = "ThrowAimed"; // anim trigger name
 
-    [Header("Projectile Speed")]
-    [SerializeField] private float projectileSpeed = 1f;
-
-    [Header("Targeting")]
-    [Tooltip("Player tag to search for and aim at.")]
-    [SerializeField] private string playerTag = "Player";
-
-    [Header("Animation")]
-    [SerializeField] private Animator animator;
-    [SerializeField] private string throwTriggerName = "ThrowAimed";
-
     private Coroutine throwRoutine; // so we can stop it later if needed
 
     private void OnEnable()
