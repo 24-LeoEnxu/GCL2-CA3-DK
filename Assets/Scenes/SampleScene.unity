@@ -730,6 +730,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BarrelBurnerPowerup (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 6069536317541048803, guid: 227463f407d43c147b43bd19ab092067, type: 3}
+      propertyPath: m_TagString
+      value: BarrelBurner
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3951,6 +3955,10 @@ PrefabInstance:
     - target: {fileID: 6069536317541048803, guid: 227463f407d43c147b43bd19ab092067, type: 3}
       propertyPath: m_Name
       value: BarrelBurnerPowerup
+      objectReference: {fileID: 0}
+    - target: {fileID: 6069536317541048803, guid: 227463f407d43c147b43bd19ab092067, type: 3}
+      propertyPath: m_TagString
+      value: BarrelBurner
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
