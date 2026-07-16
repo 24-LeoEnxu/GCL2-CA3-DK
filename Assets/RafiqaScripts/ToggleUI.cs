@@ -8,12 +8,15 @@ public class ToggleUI : MonoBehaviour
     public GameObject Pointer;
 
     public AudioSource sfxSelect;
+    public AudioSource bgm;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         MainMenu.SetActive(true);
         Credits.SetActive(false);
+
+        bgm.Play();
     }
 
     // Update is called once per frame
