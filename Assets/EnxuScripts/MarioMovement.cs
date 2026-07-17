@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class MarioMovement : MonoBehaviour
@@ -28,9 +29,15 @@ public class MarioMovement : MonoBehaviour
     public GameObject hammerHitbox;
     float hammerTimer = 8f;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    //3s wait boolean
+    private bool canRun = false;
+
+    // Changed to IEnumerator to fit the 3s wait criteria
+    IEnumerator Start()
     {
+        yield return new WaitForSeconds(3f);
+        canRun = true;
+
         rb = GetComponent<Rigidbody2D>();
         gcs = FindFirstObjectByType<GroundCheckScript>();
         animator = GetComponent<Animator>();
@@ -40,6 +47,9 @@ public class MarioMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!canRun)
+            return;
+
         //Gets left/right input
         horizontalInput = Input.GetAxis("Horizontal");
 
@@ -47,8 +57,10 @@ public class MarioMovement : MonoBehaviour
         FlipSprite();
 
         //Jump script
-        if(Input.GetButtonDown("Jump") && !isJumping && gcs.isGrounded)
+        if(Input.GetButtonDown("Jump") && !isJumping && gcs.isGrounded && !hammerPower && !isClimbing)
         {
+            LevelManagerScript.Instance.play_jumpSFX();
+
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
             isJumping = true;
             gcs.isGrounded = false;
@@ -83,22 +95,40 @@ public class MarioMovement : MonoBehaviour
         if(hammerPower)
         {
             isClimbing = false;
+            isJumping = false;
+
             animator.SetBool("MarioHammer", true);
             hammerTimer -= Time.deltaTime;
         }
 
-        if(hammerTimer <= 0)
+        if (hammerTimer <= 0)
         {
             hammerPower = false;
             animator.SetBool("MarioHammer", false);
             hammerTimer = 8f;
             hammerHitbox.SetActive(false);
+
+            LevelManagerScript.Instance.stop_HammerTimeSFX();
         }
     }
 
     private void FixedUpdate()
     {
-        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y); //Moves player
+        if (!canRun)
+            return;
+
+        rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+
+        bool isMoving = horizontalInput != 0;
+
+        if (isMoving)
+        {
+            LevelManagerScript.Instance.play_marioWalkSFX();
+        }
+        else
+        {
+            LevelManagerScript.Instance.stop_marioWalkSFX();
+        }
     }
 
     void FlipSprite()
@@ -134,6 +164,8 @@ public class MarioMovement : MonoBehaviour
             Destroy(collider.gameObject);
             hammerPower = true;
             hammerHitbox.SetActive(true);
+
+            LevelManagerScript.Instance.play_hammerTimeSFX();
         }
     }
 

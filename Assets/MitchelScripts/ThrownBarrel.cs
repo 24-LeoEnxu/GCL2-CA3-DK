@@ -3,7 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CircleCollider2D))] // needs the trigger collider to detect mario
 public class ThrownBarrel : MonoBehaviour
 {
-    [SerializeField] private float lifetime = 6f; // destroys itself after this long just in case it never hits anything
+    [SerializeField] private float lifetime = 5f; // destroys itself after this long just in case it never hits anything
     [SerializeField] private string playerTag = "Player"; // tag to check for on hit
 
     private Vector2 direction; // which way its flying
@@ -36,15 +36,8 @@ public class ThrownBarrel : MonoBehaviour
     {
         if (other.CompareTag(playerTag)) // hit mario
         {
-            TriggerGameOver(); // end the game
+            LevelManagerScript.Instance.playerDeath(); // redirects code to player death in level manager
             Destroy(gameObject); // remove the barrel
         }
-    }
-
-    private void TriggerGameOver()
-    {
-        // TODO: hook this into an actual GameManager later
-        Debug.Log("GAME OVER — Mario hit by thrown barrel."); // placeholder
-        Time.timeScale = 0f; // freezes everything so i can see it works
     }
 }

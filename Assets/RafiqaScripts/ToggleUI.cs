@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ToggleUI : MonoBehaviour
 {
@@ -26,6 +27,8 @@ public class ToggleUI : MonoBehaviour
         {
             print("Start Game trigger.");
             sfxSelect.Play();
+
+            SceneManager.LoadScene(1);
         }
 
         if ((PointerScript.choice == 2 && Input.GetKeyDown(KeyCode.Return)) || (PointerScript.choice == 2 && Input.GetKeyDown(KeyCode.Space)))
@@ -45,7 +48,7 @@ public class ToggleUI : MonoBehaviour
             sfxSelect.Play();
 
             //IF UNITY PLAYER
-            UnityEditor.EditorApplication.isPlaying = false;
+            //UnityEditor.EditorApplication.isPlaying = false;
 
             //IF BUILD
             Application.Quit();
