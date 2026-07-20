@@ -105,7 +105,7 @@ public class MarioMovement : MonoBehaviour
         {
             hammerPower = false;
             animator.SetBool("MarioHammer", false);
-            hammerTimer = 8f;
+            hammerTimer = 7f;
             hammerHitbox.SetActive(false);
 
             LevelManagerScript.Instance.stop_HammerTimeSFX();

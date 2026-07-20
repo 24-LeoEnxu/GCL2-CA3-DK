@@ -22,6 +22,7 @@ public class BarrelBurnerScript : MonoBehaviour
     {
         if(collider.CompareTag("Player"))
         {
+            LevelManagerScript.Instance.fire_burnBarrelSFX();
             bbs.burnActive = true;
             Destroy(gameObject);
         }

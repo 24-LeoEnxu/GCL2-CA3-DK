@@ -21,6 +21,7 @@ public class LevelManagerScript : MonoBehaviour
     public AudioSource jump_successSFX;
     public AudioSource marioBonk;
     public AudioSource marioWalk;
+    public AudioSource fireBurn;
 
     // creates a singleton instead of having to fetch the level manager script every time
     public static LevelManagerScript Instance { get; private set; }
@@ -82,6 +83,11 @@ public class LevelManagerScript : MonoBehaviour
     public void stop_marioWalkSFX()
     {
         marioWalk.Stop();
+    }
+
+    public void fire_burnBarrelSFX()
+    {
+        fireBurn.Play();
     }
 
     // scene management
