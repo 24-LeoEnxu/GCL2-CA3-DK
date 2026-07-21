@@ -124,6 +124,7 @@ public class LevelManagerScript : MonoBehaviour
         }
 
         score += points;
+        Debug.Log("Current score:" + score);
 
         // spawns a popup text upon scoring
         SpawnScorePopup(points, transform.position);
@@ -141,15 +142,12 @@ public class LevelManagerScript : MonoBehaviour
     {
         Debug.Log("Player has died.");
 
-        //placeholder
-        //Time.timeScale = 0f;
-        StartCoroutine(Freeze());
-
         stageTheme.Pause();
         hammerTime.Pause();
         marioDeath.Play();
 
-        gameOver();
+        StartCoroutine(Freeze());
+        //gameOver();
     }
 
     public void restartGame()
@@ -163,8 +161,6 @@ public class LevelManagerScript : MonoBehaviour
         gameOverScreen.SetActive(true);
         gameOverSound.Play();
         */
-
-
     }
 
     IEnumerator Freeze()

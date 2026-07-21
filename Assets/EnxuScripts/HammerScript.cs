@@ -3,27 +3,30 @@ using System.Collections;
 
 public class HammerScript : MonoBehaviour
 {
+    private bool hasBeenHit = false; // such that when barrel hits mario, it will help ignore that it has 2 colliders
+
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("Barrel"))
+        if (hasBeenHit)
+            return;
+
+        if (collider.CompareTag("Barrel") || collider.CompareTag("ThrownBarrel"))
         {
+            // check boolean to ensure score is calculated once
+            hasBeenHit = true;
+
             // trigger sfx
             LevelManagerScript.Instance.play_destroyBarrelSFX();
 
 
             // recreate frame freeze upon destroying a barrel
-
             Destroy(collider.gameObject, 0.3f);
             StartCoroutine(Freeze());
 
+            // add score
             LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel);
         }
 
-        if(collider.CompareTag("ThrownBarrel"))
-        {
-            Destroy(collider.gameObject);
-        }
-        
         IEnumerator Freeze()
         {
             Time.timeScale = 0f;
