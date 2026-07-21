@@ -21,8 +21,9 @@ public class explosionScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        
         explosionAnimator = GetComponent<Animator>();
-        objectSR = explodingObject.GetComponent<SpriteRenderer>();
+        objectSR = GetComponentInParent <SpriteRenderer>();
     }
 
     // Update is called once per frame

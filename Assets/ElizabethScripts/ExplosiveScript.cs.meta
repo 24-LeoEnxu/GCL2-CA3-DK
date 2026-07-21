@@ -1,2 +1,14 @@
 fileFormatVersion: 2
 guid: 031ff5861926b174094708d630aea931
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - levelManager: {fileID: 5916797064190313097, guid: 0aae891b43b8602429a58e67183b3278, type: 3}
+  - mario: {fileID: 3658853427923518696, guid: f4730c45fa33b8b4da3463f361773f9b, type: 3}
+  - explosion: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
