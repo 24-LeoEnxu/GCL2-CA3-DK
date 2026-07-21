@@ -4,7 +4,7 @@ using UnityEngine;
 public class MarioMovement : MonoBehaviour
 {
     //Animation
-    Animator animator;
+    public Animator animator;
 
     //WASD or Arrow Keys Inputs, move and jump speed
     float horizontalInput;
@@ -97,6 +97,26 @@ public class MarioMovement : MonoBehaviour
 
             animator.SetBool("MarioClimb", vertical != 0);
         }
+
+        // animation change for hammer powerup pickup
+        if (hammerPower)
+        {
+            isClimbing = false;
+            isJumping = false;
+
+            animator.SetBool("MarioHammer", true);
+            hammerTimer -= Time.deltaTime;
+        }
+
+        if (hammerTimer <= 0)
+        {
+            hammerPower = false;
+            animator.SetBool("MarioHammer", false);
+            hammerTimer = 8f;
+            hammerHitbox.SetActive(false);
+
+            LevelManagerScript.Instance.stop_HammerTimeSFX();
+        }
     }
 
     // ----------------------- END OF VOID UPDATE() ----------------------- //
@@ -117,29 +137,9 @@ public class MarioMovement : MonoBehaviour
 
             hammerPower = true;
             hammerHitbox.SetActive(true);
-            hammerTimer = 7f;
+            hammerTimer = 8f;
 
             LevelManagerScript.Instance.play_hammerTimeSFX();
-        }
-
-        // animation change for hammer powerup pickup
-        if (hammerPower)
-        {
-            isClimbing = false;
-            isJumping = false;
-
-            animator.SetBool("MarioHammer", true);
-            hammerTimer -= Time.deltaTime;
-        }
-
-        if (hammerTimer <= 0)
-        {
-            hammerPower = false;
-            animator.SetBool("MarioHammer", false);
-            hammerTimer = 7f;
-            hammerHitbox.SetActive(false);
-
-            LevelManagerScript.Instance.stop_HammerTimeSFX();
         }
     }
 

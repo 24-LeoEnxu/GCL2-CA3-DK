@@ -165,6 +165,9 @@ public class LevelManagerScript : MonoBehaviour
 
     IEnumerator Freeze()
     {
+        marioMovement.animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+        marioMovement.animator.SetBool("MarioDeath", true);
+
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(5f);
         Time.timeScale = 1f;

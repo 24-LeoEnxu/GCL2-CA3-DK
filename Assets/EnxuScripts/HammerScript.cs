@@ -7,21 +7,39 @@ public class HammerScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if (hasBeenHit)
-            return;
+        //if (hasBeenHit)
+           // return;
 
-        if (collider.CompareTag("Barrel") || collider.CompareTag("ThrownBarrel"))
+        if (collider.CompareTag("Barrel"))
         {
             // check boolean to ensure score is calculated once
-            hasBeenHit = true;
+            //hasBeenHit = true;
 
             // trigger sfx
             LevelManagerScript.Instance.play_destroyBarrelSFX();
 
 
             // recreate frame freeze upon destroying a barrel
-            Destroy(collider.gameObject, 0.3f);
             StartCoroutine(Freeze());
+            Destroy(collider.gameObject, 0.3f);
+
+            // add score
+            LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel);
+        }
+
+        //ADDED A DUPLICATE SO THE THROWN BARRELS ARE INSTANT BREAK SINCE THEY NO NEED BREAK ANIMATIONS
+        if (collider.CompareTag("ThrownBarrel"))
+        {
+            // check boolean to ensure score is calculated once
+            //hasBeenHit = true;
+
+            // trigger sfx
+            LevelManagerScript.Instance.play_destroyBarrelSFX();
+
+
+            // recreate frame freeze upon destroying a barrel
+            StartCoroutine(Freeze());
+            Destroy(collider.gameObject);
 
             // add score
             LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel);

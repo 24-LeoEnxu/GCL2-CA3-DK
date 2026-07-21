@@ -209,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a1122d7d72eeb94dafdb15bbedd48fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   groundCheck: {fileID: 144022836148299001}
   gcs: {fileID: 3629043303446971740}
   hammerHitbox: {fileID: 8008951467518130093}
