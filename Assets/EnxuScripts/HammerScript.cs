@@ -10,11 +10,14 @@ public class HammerScript : MonoBehaviour
             // trigger sfx
             LevelManagerScript.Instance.play_destroyBarrelSFX();
 
+
             // recreate frame freeze upon destroying a barrel
             StartCoroutine(Freeze());
             Destroy(collider.gameObject);
-        }
 
+            LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel);
+        }
+        
         IEnumerator Freeze()
         {
             Time.timeScale = 0f;
