@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4a40ee47efe8258438006a805058920e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - explosionAnimator: {instanceID: 0}
+  - explodingObject: {fileID: 6093197240174624940, guid: 7406e3fea82a9014ba1d2cb6b6871c2c, type: 3}
+  - objectSR: {fileID: 2813547655410082882, guid: 7406e3fea82a9014ba1d2cb6b6871c2c, type: 3}
+  - levelManagerScript: {fileID: 2634461294705591684, guid: 0aae891b43b8602429a58e67183b3278, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
