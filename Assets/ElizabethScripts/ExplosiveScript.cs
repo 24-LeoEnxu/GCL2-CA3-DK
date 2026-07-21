@@ -14,10 +14,9 @@ public class ExplosiveScript : MonoBehaviour
     {
         levelManager = GetComponent<GameObject>();
         levelManagerScript = levelManager.GetComponent<LevelManagerScript>();
-        mario = GameObject.FindGameObjectWithTag("Player");
+        mario = GameObject.FindWithTag("Player");
 
-        explosion = GetComponent<GameObject>();
-            
+        explosion = transform.GetChild(0).gameObject;
         explosionScript = explosion.GetComponent<explosionScript>();
         explosionScript.TriggerExplosion(5);
 
