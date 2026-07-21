@@ -117,6 +117,7 @@ public class MarioMovement : MonoBehaviour
 
             hammerPower = true;
             hammerHitbox.SetActive(true);
+            hammerTimer = 7f;
 
             LevelManagerScript.Instance.play_hammerTimeSFX();
         }

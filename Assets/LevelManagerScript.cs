@@ -142,7 +142,8 @@ public class LevelManagerScript : MonoBehaviour
         Debug.Log("Player has died.");
 
         //placeholder
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
+        StartCoroutine(Freeze());
 
         stageTheme.Pause();
         hammerTime.Pause();
@@ -164,5 +165,13 @@ public class LevelManagerScript : MonoBehaviour
         */
 
 
+    }
+
+    IEnumerator Freeze()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(5f);
+        Time.timeScale = 1f;
+        restartGame();
     }
 }

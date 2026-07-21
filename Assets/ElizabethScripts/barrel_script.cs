@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class barrel_script : MonoBehaviour
 {
@@ -7,12 +8,17 @@ public class barrel_script : MonoBehaviour
     [SerializeField] private bool rotateWithVelocity = true; // spins the sprite to look like its rolling
     [SerializeField] private float rotationMultiplier = -500f;
 
+    Animator animator;
+    CircleCollider2D cc;
+
     private Rigidbody2D rb; // needed for gravity/falling only now
     private float currentDirection = 0f; // 0 = not moving yet, 1 = right, -1 = left
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>(); // grab the rigidbody once
+        animator = GetComponent<Animator>();
+        cc = GetComponent<CircleCollider2D>();
     }
 
     void Update()
@@ -29,7 +35,7 @@ public class barrel_script : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D other)
     {
         PlatformDirection platformDir = other.GetComponent<PlatformDirection>(); // check if this has a direction script on it
         if (platformDir != null)
@@ -39,6 +45,16 @@ public class barrel_script : MonoBehaviour
         else if (other.CompareTag("Player"))
         {
             LevelManagerScript.Instance.playerDeath(); // tell the level manager mario got hit
+        }
+
+        //Barrel break anim plays
+        if (other.CompareTag("Hammer"))
+        {
+            animator.SetBool("BarrelBreak", true);
+            cc.enabled = false;
+            rb.simulated = false;
+            rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
         }
     }
 }

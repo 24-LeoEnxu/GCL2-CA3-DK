@@ -5,17 +5,23 @@ public class HammerScript : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.CompareTag("Barrel") ||  collider.CompareTag("ThrownBarrel"))
+        if(collider.CompareTag("Barrel"))
         {
             // trigger sfx
             LevelManagerScript.Instance.play_destroyBarrelSFX();
 
 
             // recreate frame freeze upon destroying a barrel
+
+            Destroy(collider.gameObject, 0.3f);
             StartCoroutine(Freeze());
-            Destroy(collider.gameObject);
 
             LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel);
+        }
+
+        if(collider.CompareTag("ThrownBarrel"))
+        {
+            Destroy(collider.gameObject);
         }
         
         IEnumerator Freeze()
