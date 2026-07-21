@@ -1,9 +1,11 @@
-using UnityEngine;
 using System.Collections;
+using System.Threading;
+using UnityEngine;
 
 public class DonkeyKongBarrelSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject barrelPrefab; // normal rolling barrel, needs Barrel tag
+    [SerializeField] private GameObject explosivePrefab; // normal rolling barrel, needs Barrel tag
     [SerializeField] private Transform spawnPoint; // where barrels spawn from
 
     [SerializeField] private float baseSpawnInterval = 4.5f; // avg time between spawns, matches arcade roughly
@@ -11,6 +13,8 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
 
     [Range(0f, 1f)]
     [SerializeField] private float doubleBarrelChance = 0.15f; // chance he throws 2 in a row like the og game
+    [SerializeField] private float explodingBarrelChance = 0.5f; //chance he throws an exploding barrel 
+
 
     [SerializeField] private float doubleBarrelGap = 0.4f; // time between the double barrel throws
 
@@ -22,6 +26,10 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
     [SerializeField] private bool isSpawning = true; // toggle for turning spawning on/off from inspector or code
 
     private Coroutine spawnRoutine; // reference so we can stop it
+
+
+
+
 
     private void OnEnable()
     {
@@ -57,7 +65,7 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
         {
             SpawnBarrel(); // spawn one
 
-            if (Random.value < doubleBarrelChance) // sometimes throw a second one right after
+            if (Random.value <= doubleBarrelChance) // sometimes throw a second one right after
             {
                 yield return new WaitForSeconds(doubleBarrelGap);
                 SpawnBarrel();
@@ -82,12 +90,33 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
             animator.SetTrigger(throwTriggerName); // play the throw anim
         }
 
+        // random chance to spawn explosive
+        if (explosivePrefab == null || spawnPoint == null)
+        {
+            Debug.LogWarning("DonkeyKongBarrelSpawner: Missing explosivePrefab or spawnPoint reference."); // forgot to drag something in inspector
+            return;
+        }
+        float randomChance = Random.Range(0f, 1f);
+        if (randomChance <= explodingBarrelChance)
+        {
+            GameObject explosive = Instantiate(explosivePrefab, spawnPoint.position, spawnPoint.rotation); // random chance to spawn explosive 50% of the time
+
+            if (!explosive.CompareTag(BarrelTag))
+            {
+                explosive.tag = BarrelTag; // just in case the prefab wasnt tagged right, fix it here
+            }
+        }
+        
+        //spawn normal barrels
         GameObject barrel = Instantiate(barrelPrefab, spawnPoint.position, spawnPoint.rotation); // actually spawn it, direction now handled by PlatformDirection on contact
 
         if (!barrel.CompareTag(BarrelTag))
         {
             barrel.tag = BarrelTag; // just in case the prefab wasnt tagged right, fix it here
         }
+        
+
+        
     }
 
     public void SetSpawningActive(bool active)

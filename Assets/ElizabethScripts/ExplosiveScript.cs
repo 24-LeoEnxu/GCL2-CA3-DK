@@ -1,4 +1,4 @@
-/*using UnityEngine;
+using UnityEngine;
 
 public class ExplosiveScript : MonoBehaviour
 {
@@ -12,7 +12,7 @@ public class ExplosiveScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        levelManager = GetComponent<GameObject>();
+        //levelManager = GetComponent<GameObject>();
         levelManagerScript = levelManager.GetComponent<LevelManagerScript>();
         mario = GameObject.FindWithTag("Player");
 
@@ -33,4 +33,4 @@ public class ExplosiveScript : MonoBehaviour
 
 
 
-}*/
+}

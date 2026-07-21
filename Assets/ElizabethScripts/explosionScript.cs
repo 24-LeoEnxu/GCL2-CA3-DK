@@ -34,16 +34,18 @@ public class explosionScript : MonoBehaviour
 
     public void Explode()
     {
+        gameObject.GetComponent<SpriteRenderer>().enabled = true;
+        gameObject.GetComponent<CircleCollider2D>().enabled = true;
         explosionAnimator.SetTrigger("explosion");
         print("BOOM!");
-        StartCoroutine(DestroyDelay(2.0f));
+        StartCoroutine(DestroyDelay(0.2f));
 
 
     }
 
     public void TriggerExplosion(int timer)
     {
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
         for (int i = 0; i < timer; i++)
         {
             StartCoroutine(Flashing());
@@ -58,6 +60,7 @@ public class explosionScript : MonoBehaviour
         if (playerNear == true)
         {
             //playerHealth.TakeDamage(damage); //this used only for player health system, not for instant respawn system
+            
             LevelManagerScript.Instance.playerDeath();
         }
         /*if (objectNear == true)
@@ -102,6 +105,7 @@ public class explosionScript : MonoBehaviour
         {
             playerNear = true;
         }
+
         /*if (other.tag == "Object")
         {
             objectNear = true;
