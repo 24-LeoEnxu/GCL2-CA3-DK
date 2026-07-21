@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class barrel_script : MonoBehaviour
 {
-    [SerializeField] private float rollSpeed = 0.25f; // constant horizontal roll speed, never changes once set
+    [SerializeField] private float rollSpeed = 0.5f; // constant horizontal roll speed, never changes once set
 
     [SerializeField] private bool rotateWithVelocity = true; // spins the sprite to look like its rolling
     [SerializeField] private float rotationMultiplier = -500f;

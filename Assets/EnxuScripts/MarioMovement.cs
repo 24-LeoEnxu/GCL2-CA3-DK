@@ -20,7 +20,11 @@ public class MarioMovement : MonoBehaviour
     public GroundCheckScript gcs;
 
     //Ladder
-    bool isClimbing = false;
+    private bool isOnLadder = false;
+    private bool isClimbing = false;
+
+    private Transform currentLadder;
+
     BoxCollider2D bCollider;
     float climbSpeed = 0.15f;
 
@@ -71,61 +75,46 @@ public class MarioMovement : MonoBehaviour
 
         // ----------------------- LADDER ----------------------- //
 
-        // if player is on ladder
+        // check if mario is actually staying on the ladder
+        if (isOnLadder && !isClimbing)
+        {
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                transform.position = new Vector2(currentLadder.position.x,transform.position.y);
+
+                isClimbing = true;
+                rb.gravityScale = 0f;
+                rb.linearVelocity = Vector2.zero;
+                bCollider.isTrigger = true;
+            }
+        }
+
         if (isClimbing)
         {
-            animator.SetBool("MarioClimb", true);
-        }
-        if (!isClimbing)
-        {
-            animator.SetBool("MarioClimb", false);
+            float vertical = Input.GetAxisRaw("Vertical");
+
+            rb.linearVelocity = new Vector2(0f, vertical * climbSpeed);
+
+            animator.SetBool("MarioClimb", vertical != 0);
         }
     }
 
     // ----------------------- END OF VOID UPDATE() ----------------------- //
 
-    // changed to OnTriggerStay2D instead of OnTriggerEnter2D to stop immediate climbing
-    private void OnTriggerStay2D(Collider2D collider)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        // check if player is on ladder
-        if (collider.CompareTag("Ladder"))
+        // checks if mario is colliding with ladder
+        if (other.CompareTag("Ladder"))
         {
-            isClimbing = true;
-            bCollider.isTrigger = true;
-            rb.gravityScale = 0f;
-            isJumping = true;
-
-            // get W key to move
-            if (Input.GetKey(KeyCode.W) && isClimbing || Input.GetKey(KeyCode.UpArrow) && isClimbing)
-            {
-                transform.position = new Vector2(transform.position.x, transform.position.y + climbSpeed * Time.deltaTime);
-            }
-
-            // get S key to move
-            if (Input.GetKey(KeyCode.S) && isClimbing || Input.GetKey(KeyCode.DownArrow) && isClimbing)
-            {
-                transform.position = new Vector2(transform.position.x, transform.position.y - climbSpeed * Time.deltaTime);
-            }
+            isOnLadder = true;
+            currentLadder = other.transform;
         }
-    }
 
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        // check if player is off ladder
-        if (collider.CompareTag("Ladder"))
+        // ----------------------- hammer power up ----------------------- //
+        if (other.CompareTag("HammerPowerup"))
         {
-            isClimbing = false;
-            bCollider.isTrigger = false;
-            rb.gravityScale = 0.2f;
-            isJumping = false;
-        }
-    }
+            Destroy(other.gameObject);
 
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        if (collider.CompareTag("HammerPowerup"))
-        {
-            Destroy(collider.gameObject);
             hammerPower = true;
             hammerHitbox.SetActive(true);
 
@@ -153,23 +142,35 @@ public class MarioMovement : MonoBehaviour
         }
     }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.CompareTag("Ladder"))
+        {
+            isOnLadder = false;
+            isClimbing = false;
+
+            currentLadder = null;
+
+            rb.gravityScale = 0.2f;
+            rb.linearVelocity = Vector2.zero;
+            bCollider.isTrigger = false;
+
+            animator.SetBool("MarioClimb", false);
+        }
+    }
+
     private void FixedUpdate()
     {
         if (!canRun)
             return;
 
+        if (isClimbing)
+            return;
+
         rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
 
-        bool isMoving = horizontalInput != 0;
-
-        if (isMoving)
-        {
-            LevelManagerScript.Instance.play_marioWalkSFX();
-        }
-        else
-        {
-            LevelManagerScript.Instance.stop_marioWalkSFX();
-        }
+       // bool isMoving = horizontalInput != 0;
+       // ^ commented to test if it's redundant, leaving it here in case it's important
     }
 
     void FlipSprite()
