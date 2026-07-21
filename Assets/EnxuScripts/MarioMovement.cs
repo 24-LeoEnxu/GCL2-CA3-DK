@@ -61,7 +61,7 @@ public class MarioMovement : MonoBehaviour
         FlipSprite();
 
         // jump script
-        if (Input.GetButtonDown("Jump") && !isJumping && gcs.isGrounded && !hammerPower && !isClimbing)
+        if (Input.GetButtonDown("Jump") && !isJumping && gcs.isGrounded && !isClimbing)
         {
             LevelManagerScript.Instance.play_jumpSFX();
 
@@ -78,7 +78,7 @@ public class MarioMovement : MonoBehaviour
         // check if mario is actually staying on the ladder
         if (isOnLadder && !isClimbing)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
             {
                 transform.position = new Vector2(currentLadder.position.x,transform.position.y);
 
