@@ -58,7 +58,7 @@ public class explosionScript : MonoBehaviour
         if (playerNear == true)
         {
             //playerHealth.TakeDamage(damage); //this used only for player health system, not for instant respawn system
-            levelManagerScript.marioDie();
+            LevelManagerScript.Instance.playerDeath();
         }
         /*if (objectNear == true)
         {
@@ -66,9 +66,6 @@ public class explosionScript : MonoBehaviour
         }*/
 
     }
-
-
-
 
     public IEnumerator ExplosionCountdown(int duration)
     {
