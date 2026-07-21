@@ -50,14 +50,14 @@ public class MarioMovement : MonoBehaviour
         if (!canRun)
             return;
 
-        //Gets left/right input
+        // gets left/right input
         horizontalInput = Input.GetAxis("Horizontal");
 
-        //Flips Sprite depending on where player moves
+        // flips Sprite depending on where player moves
         FlipSprite();
 
-        //Jump script
-        if(Input.GetButtonDown("Jump") && !isJumping && gcs.isGrounded && !hammerPower && !isClimbing)
+        // jump script
+        if (Input.GetButtonDown("Jump") && !isJumping && gcs.isGrounded && !hammerPower && !isClimbing)
         {
             LevelManagerScript.Instance.play_jumpSFX();
 
@@ -66,33 +66,74 @@ public class MarioMovement : MonoBehaviour
             gcs.isGrounded = false;
         }
 
-        //Animation float
+        // animation float
         animator.SetFloat("MarioMoving", horizontalInput);
 
-        //If player is on ladder
-        if(isClimbing)
+        // ----------------------- LADDER ----------------------- //
+
+        // if player is on ladder
+        if (isClimbing)
         {
             animator.SetBool("MarioClimb", true);
         }
-        if(!isClimbing)
+        if (!isClimbing)
         {
             animator.SetBool("MarioClimb", false);
         }
+    }
 
-        //If player is on ladder and press W/Up
-        if(Input.GetKey(KeyCode.W) && isClimbing || Input.GetKey(KeyCode.UpArrow) && isClimbing)
+    // ----------------------- END OF VOID UPDATE() ----------------------- //
+
+    // changed to OnTriggerStay2D instead of OnTriggerEnter2D to stop immediate climbing
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        // check if player is on ladder
+        if (collider.CompareTag("Ladder"))
         {
-            transform.position = new Vector2(transform.position.x, transform.position.y + climbSpeed * Time.deltaTime);
+            isClimbing = true;
+            bCollider.isTrigger = true;
+            rb.gravityScale = 0f;
+            isJumping = true;
+
+            // get W key to move
+            if (Input.GetKey(KeyCode.W) && isClimbing || Input.GetKey(KeyCode.UpArrow) && isClimbing)
+            {
+                transform.position = new Vector2(transform.position.x, transform.position.y + climbSpeed * Time.deltaTime);
+            }
+
+            // get S key to move
+            if (Input.GetKey(KeyCode.S) && isClimbing || Input.GetKey(KeyCode.DownArrow) && isClimbing)
+            {
+                transform.position = new Vector2(transform.position.x, transform.position.y - climbSpeed * Time.deltaTime);
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collider)
+    {
+        // check if player is off ladder
+        if (collider.CompareTag("Ladder"))
+        {
+            isClimbing = false;
+            bCollider.isTrigger = false;
+            rb.gravityScale = 0.2f;
+            isJumping = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        if (collider.CompareTag("HammerPowerup"))
+        {
+            Destroy(collider.gameObject);
+            hammerPower = true;
+            hammerHitbox.SetActive(true);
+
+            LevelManagerScript.Instance.play_hammerTimeSFX();
         }
 
-        //If player is on ladder and press S/Down
-        if (Input.GetKey(KeyCode.S) && isClimbing || Input.GetKey(KeyCode.DownArrow) && isClimbing)
-        {
-            transform.position = new Vector2(transform.position.x, transform.position.y - climbSpeed * Time.deltaTime);
-        }
-
-        //Animation change for hammer powerup pickup
-        if(hammerPower)
+        // animation change for hammer powerup pickup
+        if (hammerPower)
         {
             isClimbing = false;
             isJumping = false;
@@ -146,38 +187,5 @@ public class MarioMovement : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isJumping = false;
-    }
-
-    private void OnTriggerEnter2D(Collider2D collider)
-    {
-        //Check if player is on ladder
-        if(collider.CompareTag("Ladder"))
-        {
-            isClimbing = true;
-            bCollider.isTrigger = true;
-            rb.gravityScale = 0f;
-            isJumping = true;
-        }
-
-        if(collider.CompareTag("HammerPowerup"))
-        {
-            Destroy(collider.gameObject);
-            hammerPower = true;
-            hammerHitbox.SetActive(true);
-
-            LevelManagerScript.Instance.play_hammerTimeSFX();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        //Check if player is off ladder
-        if(collider.CompareTag("Ladder"))
-        {
-            isClimbing = false;
-            bCollider.isTrigger = false;
-            rb.gravityScale = 0.2f;
-            isJumping = false;
-        }
     }
 }
