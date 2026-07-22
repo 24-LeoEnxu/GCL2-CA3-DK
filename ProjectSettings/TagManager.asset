@@ -12,6 +12,8 @@ TagManager:
   - Hammer
   - BarrelBurner
   - HammerPowerup
+  - explosion
+  - Win
   layers:
   - Default
   - TransparentFX
@@ -48,6 +50,12 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Game UI
+    uniqueID: 2048801073
+    locked: 0
+  - name: Win UI
+    uniqueID: 2662560211
     locked: 0
   m_RenderingLayers:
   - Default

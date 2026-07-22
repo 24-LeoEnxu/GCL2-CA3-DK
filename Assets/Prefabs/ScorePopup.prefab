@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5515572921544138114}
   - component: {fileID: 5453004418456571530}
   - component: {fileID: 9053442662333417132}
+  - component: {fileID: 1748795123496828904}
   m_Layer: 5
   m_Name: ScorePopup
   m_TagString: Untagged
@@ -58,7 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 188a57fa6196c4b48a6c8c7b2869a879, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  text: {fileID: 0}
+  scoreText: {fileID: 9053442662333417132}
+  canvasGroup: {fileID: 1748795123496828904}
 --- !u!114 &9053442662333417132
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -153,3 +155,15 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!225 &1748795123496828904
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4821079732012721310}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

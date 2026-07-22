@@ -13,7 +13,7 @@ public class ExplodingBarrelScriptTest : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        explodeDefaultTimer = UnityEngine.Random.Range(5.0f, 10.0f);
+        explodeDefaultTimer = UnityEngine.Random.Range(4.0f, 10.0f);
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         explodeTimer = explodeDefaultTimer;

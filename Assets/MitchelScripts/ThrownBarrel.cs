@@ -10,6 +10,8 @@ public class ThrownBarrel : MonoBehaviour
     private float speed; // how fast
     private bool launched = false; // makes sure it doesnt move before Launch() is called
 
+    private bool destroyed = false; // check if destroyed
+
     private void Start()
     {
         Destroy(gameObject, lifetime); // cleanup timer
@@ -38,6 +40,16 @@ public class ThrownBarrel : MonoBehaviour
         {
             LevelManagerScript.Instance.playerDeath(); // redirects code to player death in level manager
             Destroy(gameObject); // remove the barrel
+        }
+
+        if (other.CompareTag("Hammer"))
+        {
+            if (destroyed)
+                return;
+
+            destroyed = true;
+
+            LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel, transform.position);
         }
     }
 }

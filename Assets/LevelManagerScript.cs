@@ -18,9 +18,26 @@ public class LevelManagerScript : MonoBehaviour
     public GameObject mario;
     private MarioMovement marioMovement;
 
+    public GameObject WinUI;
+    public GameObject GameUI;
+
+    public static int hsEndgame;
+    public TMP_Text highscoreEndgame;
+
     // scoreboard
     public int score = 0;
+    public int bonusCountdown = 5000;
+    public static int highScore = 0;
+    public static int lives = 3;
+
     public GameObject scorePopupPrefab;
+
+    public TMP_Text highScoreText;
+    public TMP_Text scoreText;
+    public TMP_Text livesText;
+    public TMP_Text bonusText;
+
+    public Canvas scoreCanvas;
 
     // audio sources - bgm
     public AudioSource stageStart;
@@ -52,10 +69,16 @@ public class LevelManagerScript : MonoBehaviour
 
     IEnumerator Start()
     {
+        WinUI.SetActive(false);
+        GameUI.SetActive(true);
+
         barrel = GameObject.FindWithTag("Barrel");
         mario = GameObject.FindWithTag("Player");
         donkeyKong = GameObject.FindWithTag("DonkeyKong");
         marioMovement = mario.GetComponent<MarioMovement>();
+
+        highScoreText.text = "TOP-" + highScore.ToString("D6");
+        livesText.text = "[" + lives + "]";
 
         stageStart.Play();
 
@@ -96,7 +119,7 @@ public class LevelManagerScript : MonoBehaviour
     }
 
     // ----------------------- SCOREBOARD ----------------------- //
-    public void AddScore(ScoreType scoreType)
+    public void AddScore(ScoreType scoreType, Vector3 worldPosition)
     {
         int points = 0;
 
@@ -111,30 +134,60 @@ public class LevelManagerScript : MonoBehaviour
                 break;
 
             case ScoreType.BurnBarrel:
-                points = 500;
-                break;
-
-            case ScoreType.DodgeFlyingBarrel:
-                points = 200;
-                break;
-
-            case ScoreType.SavePauline:
-                points = 5000;
+                points = 100;
                 break;
         }
 
         score += points;
         Debug.Log("Current score:" + score);
 
-        // spawns a popup text upon scoring
-        SpawnScorePopup(points, transform.position);
+        scoreText.text = "I-" + score.ToString("D6");
+
+        SpawnScorePopup(points, worldPosition);
+        UpdateHighScore();
     }
 
-    public void SpawnScorePopup(int points, Vector3 position)
+    public void SpawnScorePopup(int points, Vector3 worldPosition)
     {
-        GameObject popup = Instantiate(scorePopupPrefab, position, Quaternion.identity);
+        // converts screen-overlay canvas position to world position
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPosition);
 
+        // spawns text
+        GameObject popup = Instantiate(scorePopupPrefab, scoreCanvas.transform);
+
+        popup.GetComponent<RectTransform>().position = screenPos;
         popup.GetComponent<ScorePopup>().SetScore(points);
+    }
+
+    void UpdateHighScore()
+    {
+        if (score > highScore)
+        {
+            highScore = score;
+
+            highScoreText.text = "TOP-" + highScore.ToString("D6");
+        }
+    }
+
+    public void callForBonus()
+    {
+        StartCoroutine(BonusCountdown());
+    }
+    IEnumerator BonusCountdown()
+    {
+        while (bonusCountdown > 0)
+        {
+            bonusText.text = "[" + bonusCountdown + "]";
+
+            yield return new WaitForSeconds(1f);
+
+            bonusCountdown -= 100;
+        }
+
+        bonusCountdown = 0;
+        bonusText.text = "[0000]";
+
+        playerDeath();
     }
 
     // ----------------------- SCENE MANAGEMENT ----------------------- //
@@ -147,20 +200,47 @@ public class LevelManagerScript : MonoBehaviour
         marioDeath.Play();
 
         StartCoroutine(Freeze());
-        //gameOver();
     }
 
     public void restartGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(1);
     }
 
     public void gameOver()
     {
-        /*
-        gameOverScreen.SetActive(true);
-        gameOverSound.Play();
-        */
+        SceneManager.LoadScene(0);
+    }
+
+    public void winGame()
+    {
+        stageTheme.Stop();
+        hammerTime.Stop();
+        stageClear.Play();
+
+        highScore += bonusCountdown;
+        hsEndgame = highScore;
+
+        highscoreEndgame.text = "[" + hsEndgame + "]";
+
+        StartCoroutine(End());
+
+    }
+
+    IEnumerator End()
+    {
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(5f);
+        Time.timeScale = 1f;
+
+        GameUI.SetActive(false);
+        WinUI.SetActive(true);
+
+        Time.timeScale = 0f;
+        yield return new WaitForSecondsRealtime(7f);
+        Time.timeScale = 1f;
+
+        SceneManager.LoadScene(0);
     }
 
     IEnumerator Freeze()
@@ -171,6 +251,18 @@ public class LevelManagerScript : MonoBehaviour
         Time.timeScale = 0f;
         yield return new WaitForSecondsRealtime(5f);
         Time.timeScale = 1f;
-        restartGame();
+
+        lives--;
+        livesText.text = "[" + lives + "]";
+
+        if (lives == 0)
+        {
+            gameOver();
+        }
+
+        else
+        {
+            restartGame();
+        }
     }
 }

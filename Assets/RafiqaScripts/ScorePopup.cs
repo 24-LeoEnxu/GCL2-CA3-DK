@@ -1,22 +1,37 @@
 using TMPro;
 using UnityEngine;
+using System.Collections;
 
 public class ScorePopup : MonoBehaviour
 {
-    public TMP_Text text;
+    public TMP_Text scoreText;
+    public CanvasGroup canvasGroup;
 
     public void SetScore(int score)
     {
-        text.text = score.ToString();
-    }
-
-    void Update()
-    {
-        transform.position += Vector3.up * Time.deltaTime * 40f;
+        scoreText.text = score.ToString();
     }
 
     void Start()
     {
-        Destroy(gameObject, 0.75f);
+        StartCoroutine(FadeOut());
+    }
+
+    IEnumerator FadeOut()
+    {
+        float timer = 1f;
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            transform.position += Vector3.up * 40f * Time.deltaTime;
+
+            canvasGroup.alpha = timer;
+
+            yield return null;
+        }
+
+        Destroy(gameObject);
     }
 }

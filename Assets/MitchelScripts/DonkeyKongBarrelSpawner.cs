@@ -13,7 +13,7 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
 
     [Range(0f, 1f)]
     [SerializeField] private float doubleBarrelChance = 0.15f; // chance he throws 2 in a row like the og game
-    [SerializeField] private float explodingBarrelChance = 0.5f; //chance he throws an exploding barrel 
+    [SerializeField] private float explodingBarrelChance = 0.1f; //chance he throws an exploding barrel 
 
 
     [SerializeField] private float doubleBarrelGap = 0.4f; // time between the double barrel throws
@@ -26,10 +26,6 @@ public class DonkeyKongBarrelSpawner : MonoBehaviour
     [SerializeField] private bool isSpawning = true; // toggle for turning spawning on/off from inspector or code
 
     private Coroutine spawnRoutine; // reference so we can stop it
-
-
-
-
 
     private void OnEnable()
     {

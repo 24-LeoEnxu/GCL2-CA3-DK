@@ -25,6 +25,8 @@ public class BarrelBurnerScript : MonoBehaviour
             LevelManagerScript.Instance.fire_burnBarrelSFX();
             bbs.burnActive = true;
             Destroy(gameObject);
+
+            LevelManagerScript.Instance.AddScore(ScoreType.BurnBarrel, transform.position);
         }
     }
 }

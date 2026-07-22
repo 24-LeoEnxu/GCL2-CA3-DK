@@ -11,6 +11,9 @@ public class barrel_script : MonoBehaviour
     Animator animator;
     CircleCollider2D cc;
 
+    private bool destroyed = false; // check if destroyed
+    private bool jumpScored = false; // check if mario jumped over
+
     private Rigidbody2D rb; // needed for gravity/falling only now
     private float currentDirection = 0f; // 0 = not moving yet, 1 = right, -1 = left
 
@@ -35,6 +38,16 @@ public class barrel_script : MonoBehaviour
         }
     }
 
+    public void AwardJumpScore()
+    {
+        if (jumpScored)
+            return;
+
+        jumpScored = true;
+
+        LevelManagerScript.Instance.AddScore(ScoreType.JumpBarrel, transform.position);
+    }
+
     void OnTriggerEnter2D(Collider2D other)
     {
         PlatformDirection platformDir = other.GetComponent<PlatformDirection>(); // check if this has a direction script on it
@@ -55,6 +68,13 @@ public class barrel_script : MonoBehaviour
             rb.simulated = false;
             rb.linearVelocity = Vector2.zero;
             rb.angularVelocity = 0f;
+
+            if (destroyed)
+                return;
+
+            destroyed = true;
+
+            LevelManagerScript.Instance.AddScore(ScoreType.HammerBarrel, transform.position);
         }
     }
 }

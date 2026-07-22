@@ -46,6 +46,8 @@ public class MarioMovement : MonoBehaviour
         gcs = FindFirstObjectByType<GroundCheckScript>();
         animator = GetComponent<Animator>();
         bCollider = GetComponent<BoxCollider2D>();
+
+        LevelManagerScript.Instance.callForBonus();
     }
 
     // Update is called once per frame
@@ -140,6 +142,11 @@ public class MarioMovement : MonoBehaviour
             hammerTimer = 8f;
 
             LevelManagerScript.Instance.play_hammerTimeSFX();
+        }
+
+        if (other.CompareTag("Win"))
+        {
+            LevelManagerScript.Instance.winGame();
         }
     }
 
